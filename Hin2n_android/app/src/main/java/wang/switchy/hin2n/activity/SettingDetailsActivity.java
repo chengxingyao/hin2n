@@ -96,6 +96,7 @@ public class SettingDetailsActivity extends BaseActivity implements View.OnClick
     private TextInputLayout mDnsServer;
     private LinearLayout mEncryptionBox;
     private Spinner mEncryptionMode;
+    private TextInputLayout mRoute;
 
     @Override
     protected BaseTemplate createTemplate() {
@@ -156,6 +157,7 @@ public class SettingDetailsActivity extends BaseActivity implements View.OnClick
 
         mSuperNodeBackup = (TextInputLayout) findViewById(R.id.til_super_node_2);
         mMacAddr = (TextInputLayout) findViewById(R.id.til_mac_addr);
+        mRoute = (TextInputLayout) findViewById(R.id.til_route);
         mMtu = (TextInputLayout) findViewById(R.id.til_mtu);
         mLocalIP = (TextInputLayout) findViewById(R.id.til_local_ip);
         mLocalIpCheckBox = (CheckBox) findViewById(R.id.check_box_local_ip);
@@ -241,6 +243,7 @@ public class SettingDetailsActivity extends BaseActivity implements View.OnClick
             mLocalPort.getEditText().setText(R.string.item_default_localport);
             mNetMaskTIL.getEditText().setText(R.string.item_default_netmask);
             mMacAddr.getEditText().setText(EdgeCmd.getRandomMac());
+            mRoute.getEditText().setText("0.0.0.0/0");
             mResoveSupernodeIPCheckBox.setChecked(Boolean.valueOf(getString(R.string.item_default_resovesupernodeip)));
             mAllowRoutinCheckBox.setChecked(Boolean.valueOf(getString(R.string.item_default_allowrouting)));
             mAcceptMuticastCheckBox.setChecked(!Boolean.valueOf(getString(R.string.item_default_dropmuticast)));
@@ -283,6 +286,7 @@ public class SettingDetailsActivity extends BaseActivity implements View.OnClick
 
             mSuperNodeBackup.getEditText().setText(mN2NSettingModel.getSuperNodeBackup());
             mMacAddr.getEditText().setText(mN2NSettingModel.getMacAddr());
+            mRoute.getEditText().setText(mN2NSettingModel.getRoute());
             mMtu.getEditText().setText(String.valueOf(mN2NSettingModel.getMtu()));
 
             if (mN2NSettingModel.getLocalIP().equals("auto")) {
@@ -424,7 +428,8 @@ public class SettingDetailsActivity extends BaseActivity implements View.OnClick
                         mTraceLevelSpinner.getSelectedItemPosition(), !hasSelected,
                         mGatewayIp.getEditText().getText().toString(),
                         mDnsServer.getEditText().getText().toString(),
-                        mEncryptionMode.getSelectedItem().toString());
+                        mEncryptionMode.getSelectedItem().toString(),
+                        mRoute.getEditText().getText().toString());
                 n2NSettingModelDao.insert(mN2NSettingModel);
 
                 if (!hasSelected) {
@@ -475,7 +480,9 @@ public class SettingDetailsActivity extends BaseActivity implements View.OnClick
                         mTraceLevelSpinner.getSelectedItemPosition(), mN2NSettingModel.getIsSelcected(),
                         mGatewayIp.getEditText().getText().toString(),
                         mDnsServer.getEditText().getText().toString(),
-                        mEncryptionMode.getSelectedItem().toString());
+                        mEncryptionMode.getSelectedItem().toString(),
+                        mRoute.getEditText().getText().toString());
+                mN2NSettingModel.setRoute(mRoute.getEditText().getText().toString());
                 n2NSettingModelDao1.update(mN2NSettingModel);
 
                 if (N2NService.INSTANCE != null &&
@@ -721,7 +728,16 @@ public class SettingDetailsActivity extends BaseActivity implements View.OnClick
         } else {
             mMacAddr.setErrorEnabled(false);
         }
-
+        // mRoute => v1, v2, v2s
+        if (!TextUtils.isEmpty(mRoute.getEditText().getText().toString()) && !EdgeCmd.checkRoute(mRoute.getEditText().getText().toString())) {
+            mRoute.setError(mRoute.getHint() + " format is incorrect");
+            mRoute.getEditText().requestFocus();
+            mMoreSettingCheckBox.setChecked(true);
+            mMoreSettingView.setVisibility(View.VISIBLE);
+            return false;
+        } else {
+            mRoute.setErrorEnabled(false);
+        }
         return true;
     }
 

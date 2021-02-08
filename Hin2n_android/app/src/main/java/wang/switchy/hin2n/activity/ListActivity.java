@@ -273,7 +273,8 @@ public class ListActivity extends BaseActivity {
                                 n2NSettingModelCopy.getMacAddr(), n2NSettingModelCopy.getMtu(), n2NSettingModelCopy.getLocalIP(), n2NSettingModelCopy.getHolePunchInterval(),
                                 n2NSettingModelCopy.getResoveSupernodeIP(), n2NSettingModelCopy.getLocalPort(), n2NSettingModelCopy.getAllowRouting(), n2NSettingModelCopy.getDropMuticast(),
                                 n2NSettingModelCopy.isUseHttpTunnel(), n2NSettingModelCopy.getTraceLevel(), false, n2NSettingModelCopy.getGatewayIp(), n2NSettingModelCopy.getDnsServer(),
-                                n2NSettingModelCopy.getEncryptionMode());
+                                n2NSettingModelCopy.getEncryptionMode(),
+                                n2NSettingModelCopy.getRoute());
                         n2NSettingModelDao1.insert(n2NSettingModel);
 
                         //2.ui update

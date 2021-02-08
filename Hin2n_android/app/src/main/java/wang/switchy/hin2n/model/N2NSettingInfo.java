@@ -37,6 +37,7 @@ public class N2NSettingInfo implements Parcelable {
     String gatewayIp;
     String dnsServer;
     String encryptionMode;
+    String route;
 
     public N2NSettingInfo(N2NSettingModel n2NSettingModel) {
         this.id = n2NSettingModel.getId();
@@ -62,6 +63,7 @@ public class N2NSettingInfo implements Parcelable {
         this.gatewayIp = n2NSettingModel.getGatewayIp();
         this.dnsServer = n2NSettingModel.getDnsServer();
         this.encryptionMode = n2NSettingModel.getEncryptionMode();
+        this.route = n2NSettingModel.getRoute();
     }
 
     protected N2NSettingInfo(Parcel in) {
@@ -88,6 +90,7 @@ public class N2NSettingInfo implements Parcelable {
         gatewayIp = in.readString();
         dnsServer = in.readString();
         encryptionMode = in.readString();
+        route = in.readString();
     }
 
     public static final Creator<N2NSettingInfo> CREATOR = new Creator<N2NSettingInfo>() {
@@ -172,6 +175,14 @@ public class N2NSettingInfo implements Parcelable {
 
     public void setSuperNodeBackup(String superNodeBackup) {
         this.superNodeBackup = superNodeBackup;
+    }
+
+    public String getRoute() {
+        return route;
+    }
+
+    public void setRoute(String route) {
+        this.route = route;
     }
 
     public String getMacAddr() {
@@ -270,7 +281,9 @@ public class N2NSettingInfo implements Parcelable {
         return dnsServer;
     }
 
-    public String getEncryptionMode() { return encryptionMode; }
+    public String getEncryptionMode() {
+        return encryptionMode;
+    }
 
     @Override
     public String toString() {
@@ -298,6 +311,7 @@ public class N2NSettingInfo implements Parcelable {
                 ", gatewayIp=" + gatewayIp +
                 ", dnsServer=" + dnsServer +
                 ", encryptionMode=" + encryptionMode +
+                ", route=" + route +
                 '}';
     }
 
@@ -335,5 +349,6 @@ public class N2NSettingInfo implements Parcelable {
         parcel.writeString(gatewayIp);
         parcel.writeString(dnsServer);
         parcel.writeString(encryptionMode);
+        parcel.writeString(route);
     }
 }

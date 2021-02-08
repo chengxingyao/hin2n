@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.VpnService;
 import android.os.*;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import java.io.IOException;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
 import wang.switchy.hin2n.R;
 import wang.switchy.hin2n.activity.MainActivity;
 import wang.switchy.hin2n.event.*;
@@ -81,8 +83,22 @@ public class N2NService extends VpnService {
         if (!n2nSettingInfo.getGatewayIp().isEmpty()) {
             /* Route all the internet traffic via n2n. Most specific routes "win" over the system default gateway.
              * See https://github.com/zerotier/ZeroTierOne/issues/178#issuecomment-204599227 */
-            builder.addRoute("0.0.0.0", 1);
-            builder.addRoute("128.0.0.0", 1);
+//            builder.addRoute("0.0.0.0", 1);
+            //增加路由配置
+            String route = n2nSettingInfo.getRoute();
+            if (!TextUtils.isEmpty(route)) {
+                String[] routeArray = route.split("\n");
+                for (int i = 0; i < routeArray.length; i++) {
+                    String[] routeAddress = routeArray[i].split("/");
+                    if (routeAddress.length == 2) {
+                        try {
+                            builder.addRoute(routeAddress[0], Integer.parseInt(routeAddress[1]));
+                        } catch (Exception e) {
+
+                        }
+                    }
+                }
+            }
         }
 
         if (!n2nSettingInfo.getDnsServer().isEmpty()) {
@@ -193,7 +209,7 @@ public class N2NService extends VpnService {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLogChangeEvent(final LogChangeEvent event) {
         EdgeStatus status = getEdgeStatus();
-        Log.d("status",status.runningStatus.name());
+        Log.d("status", status.runningStatus.name());
         reportEdgeStatus(status);
     }
 

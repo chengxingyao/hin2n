@@ -56,7 +56,7 @@ public class EdgeCmd {
         this.encryptionMode = encryptionMode;
     }
 
-    public EdgeCmd(N2NSettingInfo n2NSettingInfo, int vpnFd, String logPath){
+    public EdgeCmd(N2NSettingInfo n2NSettingInfo, int vpnFd, String logPath) {
         this.edgeType = n2NSettingInfo.getVersion();
         this.ipAddr = n2NSettingInfo.getIp();
         this.ipNetmask = n2NSettingInfo.getNetmask();
@@ -81,6 +81,21 @@ public class EdgeCmd {
         this.gatewayIp = n2NSettingInfo.getGatewayIp();
         this.dnsServer = n2NSettingInfo.getDnsServer();
         this.encryptionMode = n2NSettingInfo.getEncryptionMode();
+    }
+
+    public static boolean checkRoute(String route) {
+        String[] routeArray = route.split("\n");
+        for (int i = 0; i < routeArray.length; i++) {
+            String[] routeAddress = routeArray[i].split("/");
+            if (routeAddress.length == 2) {
+                try {
+                    return true;
+                } catch (Exception e) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public boolean checkValues(Vector<String> invalids) {

@@ -322,6 +322,21 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_route"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/til_mac_addr"
+                    android:hint="route">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/tie_route"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
                 <!--android:layout_below="@id/til_local_ip"-->
 
                 <!--boolean-->
@@ -330,7 +345,7 @@
                     android:id="@+id/rl_resolve_super_node_ip_check_box"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/til_mac_addr">
+                    android:layout_below="@id/til_route">
 
                     <CheckBox
                         android:id="@+id/resove_super_node_ip_check_box"
@@ -429,7 +444,6 @@
                 </RelativeLayout>
 
             </RelativeLayout>
-
             <RelativeLayout
                 android:layout_marginTop="10dp"
                 android:id="@+id/rl_buttons"

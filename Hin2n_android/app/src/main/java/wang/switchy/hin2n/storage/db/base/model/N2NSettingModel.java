@@ -41,6 +41,7 @@ public class N2NSettingModel /*implements Parcelable*/ {
     String gatewayIp;
     String dnsServer;
     String encryptionMode;
+    String route;
 
 
     public String getSuperNode() {
@@ -225,12 +226,20 @@ public class N2NSettingModel /*implements Parcelable*/ {
 
     public void setEncryptionMode(String mode) { this.encryptionMode = mode; }
 
-    @Generated(hash = 2072623276)
+    public void setRoute(String route) {
+        this.route = route;
+    }
+
+    public String getRoute() {
+        return route;
+    }
+
+    @Generated(hash = 2048679334)
     public N2NSettingModel(Long id, int version, String name, String ip, String netmask, String community, String password,
             String superNode, boolean moreSettings, String superNodeBackup, String macAddr, int mtu, String localIP,
             int holePunchInterval, boolean resoveSupernodeIP, int localPort, boolean allowRouting, boolean dropMuticast,
             boolean useHttpTunnel, int traceLevel, boolean isSelcected, String gatewayIp, String dnsServer,
-            String encryptionMode) {
+            String encryptionMode, String route) {
         this.id = id;
         this.version = version;
         this.name = name;
@@ -255,6 +264,7 @@ public class N2NSettingModel /*implements Parcelable*/ {
         this.gatewayIp = gatewayIp;
         this.dnsServer = dnsServer;
         this.encryptionMode = encryptionMode;
+        this.route = route;
     }
 
     @Generated(hash = 998225630)
@@ -296,6 +306,7 @@ public class N2NSettingModel /*implements Parcelable*/ {
                 ", gatewayIp=" + gatewayIp +
                 ", dnsServer=" + dnsServer +
                 ", encryptionMode =" + encryptionMode +
+                ", route =" + route +
                 '}';
     }
 
